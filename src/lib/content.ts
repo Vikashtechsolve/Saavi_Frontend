@@ -15,6 +15,7 @@ import Deepak from "../../public/assets/Deepak.jfif";
 import DeepakRedhu from "../../public/assets/DeepakRedhu.jfif"
 import KritiMisra from "../../public/assets/KritiMishra.jfif"
 import SauravSingh from "../../public/assets/SauravSingh.jfif"
+import Manasvi from "../../public/assets/manasvi.jpeg"
 
 export const content = {
   company: {
@@ -206,6 +207,12 @@ export const content = {
       role: 'Founder & CEO',
       description: 'Mr Deepak Dangi completed his education in the field of IT (B.Sc IT) and completed his Post Graduation in Management (MBA). Worked with big brands like Imperial Hotel Delhi, Le Meridien , Metropolitan, Pi hotels etc., Mr. Deepak Dangi emerged as an exceptional amalgamation of IT and hospitality. To His love for geniality and his burning desire to achieve the inevitable success, In 2019 founded the Saavi Events and Entertainment, His experience of 12 years in the industry adds fuel to passion driven approach of Saavi Hotel. Now Saavi Hotels operates five plus hotels in India, this contemporary approach of attention to the corporate stay and Social events is driven by the vast expertise of this charming entrepreneur.',
       imageSrc: Deepak,
+    },
+    {
+      name: 'Manasvi Dutta',
+      role: 'Co Founder',
+      description: "A service orientated skilled leader having tactful articulation with professional judgement and decision making skills. A proven leader with a keen eye for detail, a flair for contemporary art and decor, and 10 years of rich experience is what sets Manasvi apart. A creative problem solver, with a consistently successful track record in all aspects of Event Management, have Completed Master Degree from Delhi University, and Bachelor in Science from DRC Delhi University, she is an expert in Events Organising, . A self-made woman, her last assignment was as Director with PRI Group before she joined us. She has also worked with key industry players like Tecnia, Globe Advice, Vipra Dialogues, amongst others across locations in India. She firmly believes that a good induction and comprehensive training is the key to high standards of delivery with hygiene and service.",
+      imageSrc: Manasvi,
     },
     {
       name: 'Kriti Mishra',
