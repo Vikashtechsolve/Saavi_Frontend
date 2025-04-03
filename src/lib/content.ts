@@ -30,7 +30,7 @@ export const content = {
   },
   hotels: [
     {
-      id: "golf-course-luxury",
+      id: "67cff17c61e2b30ed05edb2b",
       name: "Saavi Hotel Golf course",
       location: "Gurugram, Haryana, India",
       city: "Gurugram",
@@ -40,7 +40,7 @@ export const content = {
       bookingEngine : "http://bookingengine.maximojo.com?hid=IN-7fc00e1a-24e9-4e40-9e88-b3f0f8a6d8ac"
     },
     {
-      id: "sector-46",
+      id: "67d0030561e2b30ed05edb32",
       name: "Saavi Hotel Sector 46",
       location: "Gurugram, Haryana, India",
       city: "Gurugram",
@@ -50,7 +50,7 @@ export const content = {
       bookingEngine : "http://bookingengine.maximojo.com?hid=IN-d94400e8-db75-4daa-9a98-d84564413313"
     },
     {
-      id: "sector-45",
+      id: "67d0042661e2b30ed05edb35",
       name: "Saavi Hotel Sector 45",
       location: "Gurugram, Haryana, India",
       city: "Gurugram",
@@ -60,7 +60,7 @@ export const content = {
       bookingEngine :"http://bookingengine.maximojo.com?hid=IN-c2ecb7a0-0dd5-4ce2-a9b7-2c2afeb8754b"
     },
     {
-      id: "sector-10",
+      id: "67d0058f61e2b30ed05edb38",
       name: "Saavi Hotel Sector 10",
       location: "Gurugram, Haryana, India",
       city: "Gurugram",
@@ -70,7 +70,7 @@ export const content = {
       bookingEngine : "http://bookingengine.maximojo.com?hid=IN-f59a1bd3-916f-4a62-9092-9624599ac2c6"
     },
     {
-      id: 'shimla-mountain-resort',
+      id: '67d00cb085198afdd6ef1cf8',
       name: "Hassan Valley By Saavi",
       location: "Shimla, Himachal Pradesh, India",
       city: "Shimla",
@@ -88,7 +88,7 @@ export const content = {
     //   amenities: ["Wellness Center", "Luxury Rooms", "Multi-Cuisine Dining", "Bonfire"]
     // },
     {
-      id: "saavi-jibhi",
+      id: "67d00a2161e2b30ed05edb3f",
       name: "Saavi Hotel Jibhi",
       location: "Jibhi,Himachal Pradesh, India",
       city: "Jibhi",
