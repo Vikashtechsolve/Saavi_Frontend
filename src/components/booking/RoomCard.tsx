@@ -236,7 +236,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
             >
               Reserve
             </button>
-            <PaymentForm/>
+            {/* <PaymentForm/> */}
           </div>
         </div>
     </div>
