@@ -178,15 +178,15 @@ const GSTInfoPage = ({
         >
           {roomData.totalRoomsOnly > 0 ?<div className="mb-4 flex justify-between items-center">
             <p>{roomData.totalRoomsOnly} EP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
-            <p className="text-green-900 font-medium">{totalPrices.totalRoomsOnlyPrice}</p>
+            <p className="text-green-900 font-medium">₹ {totalPrices.totalRoomsOnlyPrice}</p>
           </div>:null}
           {roomData.totalBreakfast > 0 ?<div className="mb-4 flex justify-between items-center">
             <p>{roomData.totalBreakfast} CP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
-            <p className="text-green-900 font-medium">{totalPrices.totalBreakfastPrice}</p>
+            <p className="text-green-900 font-medium">₹ {totalPrices.totalBreakfastPrice}</p>
           </div>:null}
           {roomData.totalMeal > 0 ?<div className="mb-4 flex justify-between items-center">
             <p>{roomData.totalMeal} MAP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
-            <p className="text-green-900 font-medium">{totalPrices.totalMealPrice}</p>
+            <p className="text-green-900 font-medium">₹ {totalPrices.totalMealPrice}</p>
           </div>:null}
 
           <div className="mb-4 flex justify-between items-center">
@@ -196,14 +196,14 @@ const GSTInfoPage = ({
 
           <div className="mb-4 flex justify-between items-center">
             <p>Taxes & Other Charges</p>
-            <p className="font-medium text-green-900">₹ 500</p>
+            <p className="font-medium text-green-900">₹ {(totalPrices.totalRoomsOnlyPrice + totalPrices.totalBreakfastPrice + totalPrices.totalMealPrice)*12/100}</p>
           </div>
           
           <div className="border-t border-gray-400"></div>
           
           <div className="mb-4 flex justify-between items-center">
             <p>Payable amount</p>
-            <p className="font-medium text-green-900">₹ 20000</p>
+            <p className="font-medium text-green-900">₹ {((totalPrices.totalRoomsOnlyPrice + totalPrices.totalBreakfastPrice + totalPrices.totalMealPrice)*12/100)+(totalPrices.totalRoomsOnlyPrice + totalPrices.totalBreakfastPrice + totalPrices.totalMealPrice)}</p>
           </div>
           
           {/* <div className="mb-4 flex items-center">
