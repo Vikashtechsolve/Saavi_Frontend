@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import { RoomType } from "../../types/booking";
+import PaymentForm from "../payment/paymentGateway";
 
 interface RoomCardProps {
   room: RoomType;
@@ -235,6 +236,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
             >
               Reserve
             </button>
+            <PaymentForm/>
           </div>
         </div>
     </div>
