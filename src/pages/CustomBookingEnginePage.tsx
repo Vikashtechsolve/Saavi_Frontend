@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faChevronRight,
   faTimes,
+  faTags
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import clsx from "clsx";
@@ -14,7 +15,7 @@ import RoomCard from "../components/booking/RoomCard";
 import { rooms } from "../data/rooms";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
-const roomTypes = ["DELUXE ROOM", "SUITE ROOM"];
+
 type DateRange = [Date | null, Date | null];
 
 const ContactForm = ({
@@ -140,6 +141,88 @@ const ContactForm = ({
   );
 };
 
+
+const GSTInfoPage = ({
+  isOpen,
+  nightsStay,
+  roomData,
+  setMainContactFormOpen,
+  setContactFormOpen,
+  totalPrices,
+}: {
+  isOpen: boolean;
+  nightsStay:number;
+  roomData:RoomData;
+  setMainContactFormOpen:React.Dispatch<React.SetStateAction<boolean>>;
+  setContactFormOpen:React.Dispatch<React.SetStateAction<boolean>>;
+  totalPrices:PriceData;
+}) => {
+  if (!isOpen) return null;
+  console.log(isOpen)
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Price Breakdown</h2>
+          <button onClick={() => setContactFormOpen(false)} className="text-white">
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setMainContactFormOpen(true);
+            setContactFormOpen(false);
+          }}
+        >
+          {roomData.totalRoomsOnly > 0 ?<div className="mb-4 flex justify-between items-center">
+            <p>{roomData.totalRoomsOnly} EP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
+            <p className="text-green-900 font-medium">{totalPrices.totalRoomsOnlyPrice}</p>
+          </div>:null}
+          {roomData.totalBreakfast > 0 ?<div className="mb-4 flex justify-between items-center">
+            <p>{roomData.totalBreakfast} CP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
+            <p className="text-green-900 font-medium">{totalPrices.totalBreakfastPrice}</p>
+          </div>:null}
+          {roomData.totalMeal > 0 ?<div className="mb-4 flex justify-between items-center">
+            <p>{roomData.totalMeal} MAP x {nightsStay} {nightsStay > 1 ? "Nights":"Night"}</p>
+            <p className="text-green-900 font-medium">{totalPrices.totalMealPrice}</p>
+          </div>:null}
+
+          <div className="mb-4 flex justify-between items-center">
+            <p>Pay Now Discount</p>
+            <p className="text-red-500 font-medium">- ₹ 0</p>
+          </div>
+
+          <div className="mb-4 flex justify-between items-center">
+            <p>Taxes & Other Charges</p>
+            <p className="font-medium text-green-900">₹ 500</p>
+          </div>
+          
+          <div className="border-t border-gray-400"></div>
+          
+          <div className="mb-4 flex justify-between items-center">
+            <p>Payable amount</p>
+            <p className="font-medium text-green-900">₹ 20000</p>
+          </div>
+          
+          {/* <div className="mb-4 flex items-center">
+          <FontAwesomeIcon icon={faTags} className="text-yellow-600 mr-2" />
+            <p className="text-yellow-600">discount You are saving ₹ 0 by booking directly</p>
+          </div> */}
+          
+          <button
+            type="submit"
+            className="w-full bg-brown-800 text-white py-2 px-4 rounded-md hover:bg-brown-900 focus:outline-none focus:ring-2 focus:ring-brown-500"
+          >
+            Continue Booking
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 const PromoCodeForm = ({
   isOpen,
   onClose,
@@ -195,6 +278,19 @@ const PromoCodeForm = ({
   );
 };
 
+
+// Define the type for the main object containing multiple room details
+type RoomData = {
+  totalRoomsOnly: number;
+  totalBreakfast: number;
+  totalMeal: number;
+};
+type PriceData = {
+  totalRoomsOnlyPrice: number;
+  totalBreakfastPrice: number;
+  totalMealPrice: number;
+};
+
 const CustomBookingEnginePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -204,6 +300,7 @@ const CustomBookingEnginePage: React.FC = () => {
   const [children, setChildren] = useState<number>(0);
   const [infants, setInfants] = useState<number>(0);
   const [contactFormOpen, setContactFormOpen] = useState<boolean>(false);
+  const [mainContactFormOpen, setMainContactFormOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [promoCodeOpen, setPromoCodeOpen] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>("");
@@ -214,6 +311,9 @@ const CustomBookingEnginePage: React.FC = () => {
     phone: "",
   });
   const [hotelData, setHotelData] = useState<any>(null);
+
+  const [roomData, setRoomData] = useState<RoomData>({ totalRoomsOnly: 0, totalBreakfast: 0, totalMeal: 0 });
+
   const [selectedRooms, setSelectedRooms] = useState<
     Record<string, Record<string, number>>
   >({});
@@ -293,6 +393,7 @@ const CustomBookingEnginePage: React.FC = () => {
   };
 
   const handleReservation = (roomId: string) => {
+    console.log(roomData,totalPrices)
     if (!validateBooking()) {
       return;
     }
@@ -320,6 +421,9 @@ const CustomBookingEnginePage: React.FC = () => {
 
     // Set current room ID and open the contact form
     setCurrentRoomId(roomId);
+
+    // Here gst calling will come
+
     setContactFormOpen(true);
   };
 
@@ -379,10 +483,10 @@ const CustomBookingEnginePage: React.FC = () => {
 
       const data = await response.json();
       console.log("reservation data", data);
-      navigate(`/`);
 
       // Close form and reset
       setContactFormOpen(false);
+      setMainContactFormOpen(true);
     } catch (error) {
       console.error("Reservation error:", error);
     } finally {
@@ -415,6 +519,12 @@ const CustomBookingEnginePage: React.FC = () => {
   };
 
   const totalGuests = adults + children + infants;
+  
+  const [totalPrices, setTotalPrices] = useState({
+    totalRoomsOnlyPrice: 0,
+    totalBreakfastPrice: 0,
+    totalMealPrice: 0,
+  });
 
   return (
     <div className="flex flex-col lg:flex-row w-full border border-gray-300 bg-white shadow-md">
@@ -487,6 +597,9 @@ const CustomBookingEnginePage: React.FC = () => {
           {rooms.map((room) => (
             <RoomCard
               key={room.id}
+              setTotalPrices={setTotalPrices}
+              setRoomData={setRoomData}
+              roomData={roomData}
               room={room}
               expanded={expanded[room.id]}
               totalGuests={totalGuests}
@@ -504,12 +617,22 @@ const CustomBookingEnginePage: React.FC = () => {
 
       {/* Contact Form Modal */}
       <ContactForm
-        isOpen={contactFormOpen}
-        onClose={() => setContactFormOpen(false)}
+        isOpen={mainContactFormOpen}
+        onClose={() => setMainContactFormOpen(false)}
         contactFormData={contactFormData}
         setContactFormData={setContactFormData}
         onSubmit={submitReservation}
       />
+
+      <GSTInfoPage
+      isOpen={contactFormOpen}
+      roomData={roomData || { totalRoomsOnly: 0, totalBreakfast: 0, totalMeal: 0 }}
+      nightsStay={nightsStay}
+      totalPrices={totalPrices}
+      setMainContactFormOpen={setMainContactFormOpen}
+      setContactFormOpen={setContactFormOpen}/>
+
+
       <PromoCodeForm
         isOpen={promoCodeOpen}
         onClose={() => setPromoCodeOpen(false)}

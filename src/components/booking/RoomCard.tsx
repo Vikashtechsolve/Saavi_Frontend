@@ -12,6 +12,9 @@ import { RoomType } from "../../types/booking";
 
 interface RoomCardProps {
   room: RoomType;
+  setRoomData:object;
+  roomData:object;
+  setTotalPrices:object;
   expanded: boolean;
   totalGuests: number;
   nightsStay: number;
@@ -25,7 +28,10 @@ interface RoomCardProps {
 
 const RoomCard: React.FC<RoomCardProps> = ({
   room,
+  setRoomData,
+  roomData,
   expanded,
+  setTotalPrices,
   totalGuests,
   nightsStay,
   children,
@@ -35,6 +41,49 @@ const RoomCard: React.FC<RoomCardProps> = ({
   onReserve,
   onSelectType,
 }) => {
+
+  const handleSelectRoom = (roomId: string, planId: string, count: number) => {
+    // Call the existing onSelectRoom function
+    onSelectRoom(roomId, planId, count);
+    
+    // Determine which count to update based on the planId
+   const selectedPlan = room.ratePlans.find((plan) => plan.id === planId);
+  const totalPrice = selectedPlan ? selectedPlan.price * nightsStay * count : 0;
+
+  // Determine which count and price to update
+  let updatedCounts = {};
+  let updatedPrices = {};
+
+  switch (planId) {
+    case 'ep': // Room Only
+      updatedCounts = { totalRoomsOnly: count };
+      updatedPrices = { totalRoomsOnlyPrice: totalPrice };
+      break;
+    case 'cp': // Breakfast Included
+      updatedCounts = { totalBreakfast: count };
+      updatedPrices = { totalBreakfastPrice: totalPrice };
+      break;
+    case 'map': // Breakfast and 1 Major Meal
+      updatedCounts = { totalMeal: count };
+      updatedPrices = { totalMealPrice: totalPrice };
+      break;
+    default:
+      break;
+  }
+
+  // Update the roomData state
+  setRoomData((prevData) => ({
+    ...prevData,
+    ...updatedCounts,
+  }));
+
+  // Update the totalPrices state
+  setTotalPrices((prevPrices) => ({
+    ...prevPrices,
+    ...updatedPrices,
+  }));
+
+  };
   return (
     <div className="room-card bg-white mb-4 border-b border-gray-200">
       <div className="flex flex-col md:flex-row">
@@ -105,25 +154,9 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <p className="mt-2 text-gray-700">{room.description}</p>
           </div>
 
-          <div className="mt-4 flex justify-end">
-            <button
-              className="bg-white border border-red-900 text-red-900 px-4 py-2 rounded-md flex items-center hover:bg-red-50"
-              onClick={() => {
-                onToggleDetails();
-                onSelectType(room.title);
-              }}
-            >
-              {expanded ? "Close" : "Details & Book"}
-              <FontAwesomeIcon
-                icon={expanded ? faChevronUp : faChevronDown}
-                className="ml-2"
-              />
-            </button>
-          </div>
         </div>
       </div>
 
-      {expanded && (
         <div className="border-t border-gray-200 p-4">
           <div className="grid grid-cols-3 gap-4 mt-2">
             <p className="font-medium">Rate Plan</p>
@@ -166,8 +199,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   className="border border-gray-300 rounded-md p-2 w-full bg-white"
                   value={selectedRooms[room.id]?.[plan.id] || 0}
                   onChange={(e) =>
-                    onSelectRoom(room.id, plan.id, parseInt(e.target.value))
-                  }
+                handleSelectRoom(room.id, plan.id, parseInt(e.target.value))
+              }
                   disabled={totalGuests > room.maxGuests}
                 >
                   <option value="0">0</option>
@@ -204,7 +237,6 @@ const RoomCard: React.FC<RoomCardProps> = ({
             </button>
           </div>
         </div>
-      )}
     </div>
   );
 };

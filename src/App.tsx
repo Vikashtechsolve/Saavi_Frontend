@@ -18,6 +18,7 @@ import ExplorePage from '@/pages/Explore';
 import { Analytics } from '@vercel/analytics/react';
 import ScrollToTop from './lib/scroolToTop';
 import CustomBookingEnginePage from '@/pages/CustomBookingEnginePage';
+
 function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="hotel-theme">

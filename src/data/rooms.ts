@@ -1,13 +1,13 @@
 
-import { faBed, faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { faBed, faCoffee,faUtensils } from "@fortawesome/free-solid-svg-icons";
 import deluxRoom from "/assets/delux_room_img_1.jpg";
 import suiteRoom from "/assets/suite_room_1.jpg";
 import { RoomType } from "../types/booking";
 
 export const rooms: RoomType[] = [
     {
-        id: "deluxe",
-        title: "DELUXE ROOM",
+        id: "standard",
+        title: "STANDARD ROOM",
         maxGuests: 3,
         maxChildren: 1,
         image: deluxRoom,
@@ -31,12 +31,20 @@ export const rooms: RoomType[] = [
                 description: "Room with breakfast included",
                 price: 3600,
             },
+            {
+                id: "map",
+                name: "Breakfast and 1 Major Meal Included",
+                code: "MAP",
+                icon: faUtensils,
+                description: "Room with breakfast included",
+                price: 3600,
+            },
         ],
         startingPrice: 3000,
     },
     {
-        id: "suite",
-        title: "SUITE ROOM",
+        id: "Deluxe",
+        title: "DELUXE ROOM",
         maxGuests: 3,
         maxChildren: 1,
         image: suiteRoom,
@@ -59,6 +67,51 @@ export const rooms: RoomType[] = [
                 icon: faCoffee,
                 description: "Room with breakfast included",
                 price: 4100,
+            },
+            {
+                id: "map",
+                name: "Breakfast and 1 Major Meal Included",
+                code: "MAP",
+                icon: faUtensils,
+                description: "Breakfast and 1 Major Meal Included",
+                price: 3600,
+            },
+        ],
+        startingPrice: 3500,
+    },
+    {
+        id: "Presidential",
+        title: "PRESIDENTIAL ROOM",
+        maxGuests: 3,
+        maxChildren: 1,
+        image: suiteRoom,
+        description:
+            "Indulge in ultimate comfort in our luxurious suite room featuring plush beds and complimentary toiletries. This air-conditioned suite includes a private bathroom wit...",
+        amenities: ["Air Conditioning", "Private Bathroom", "TV", "Seating Area"],
+        ratePlans: [
+            {
+                id: "ep",
+                name: "Room Only",
+                code: "EP",
+                icon: faBed,
+                description: "Room only, no meals included",
+                price: 3500,
+            },
+            {
+                id: "cp",
+                name: "Breakfast Included",
+                code: "CP",
+                icon: faCoffee,
+                description: "Room with breakfast included",
+                price: 4100,
+            },
+            {
+                id: "map",
+                name: "Breakfast and 1 Major Meal Included",
+                code: "MAP",
+                icon: faUtensils,
+                description: "Breakfast and 1 Major Meal Included",
+                price: 3600,
             },
         ],
         startingPrice: 3500,
