@@ -1,18 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-type BookingDetails = {
-  hotelName: string;
-  nights: number;
-  roomType: string;
-  numberOfPeople: number;
-};
 
-const BookingSuccess: React.FC<BookingDetails> = ({
-  hotelName,
-  nights,
-  roomType,
-  numberOfPeople,
-}) => {
+interface ContactDetails {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+}
+
+interface BookingDetails {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  checkIn: string;
+  checkOut: string;
+  cost: number;
+  destination: string;
+  hotelId: string;
+  rooms: number;
+  guests: number;
+  bookingDate: string;
+  type: string;
+  promoCode?: string;
+  contactDetails: ContactDetails;
+  __v: number;
+  hotelName:string;
+}
+const BookingSuccess = () => {
+  const bookingId=useParams();
+
+  const [booking, setBooking] = useState<BookingDetails | null>(null);
+
+  useEffect(() => {
+    console.log("success", bookingId.bookingId);
+
+    const fetchBookingById = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId.bookingId}`
+          //  ${import.meta.env.VITE_BACKEND_URL}
+          , {
+          headers: {
+
+            'ngrok-skip-browser-warning': '6941',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch booking by ID");
+        }
+
+        const data = await response.json();
+        setBooking(data); // Ensure API returns correct format
+      } catch (error) {
+        console.error("Error fetching booking:", error);
+      }
+    };
+
+    fetchBookingById();
+  }, [bookingId.bookId]);
+
+  if (!booking) {
+    
+    return (<div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+      <div>Loading booking...</div>
+      </div>);
+  }
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
@@ -22,10 +77,20 @@ const BookingSuccess: React.FC<BookingDetails> = ({
         </p>
 
         <div className="text-left text-gray-800 space-y-2 mb-6">
-          <p><span className="font-semibold">Hotel Name:</span> {hotelName}</p>
-          <p><span className="font-semibold">Nights:</span> {nights}</p>
-          <p><span className="font-semibold">Room Booked:</span> {roomType}</p>
-          <p><span className="font-semibold">Number of People:</span> {numberOfPeople}</p>
+          <h2 className="text-2xl font-bold text-black mb-4">Booking Information</h2>
+          <p><span className="font-semibold">Hotel Name:</span> {booking.hotelName}</p>
+          <p><span className="font-semibold">Check In Date:</span> {booking.checkIn}</p>
+          <p><span className="font-semibold">Check Out Date:</span> {booking.checkOut}</p>
+          <p><span className="font-semibold">Cost:</span> {booking.cost}</p>
+          <p><span className="font-semibold">Destination:</span> {booking.destination}</p>
+          <p><span className="font-semibold">Rooms:</span> {booking.rooms}</p>
+          <p><span className="font-semibold">Guests:</span> {booking.guests}</p>
+          <p><span className="font-semibold">Booking Date:</span> {booking.bookingDate}</p>
+          <h2 className="text-2xl font-bold text-black mb-4">Personal Information</h2>
+          <p><span className="font-semibold">First Name:</span> {booking.contactDetails.firstName}</p>
+          <p><span className="font-semibold">Last Name:</span> {booking.contactDetails.lastName}</p>
+          <p><span className="font-semibold">Email:</span> {booking.contactDetails.email}</p>
+          <p><span className="font-semibold">Phone No:</span> {booking.contactDetails.phone}</p>
         </div>
 
         <p className="text-yellow-600 font-medium">
@@ -40,11 +105,6 @@ const BookingSuccess: React.FC<BookingDetails> = ({
 
 export default function BookingPage() {
   return (
-    <BookingSuccess
-      hotelName="The Royal Orchid"
-      nights={2}
-      roomType="Deluxe King Suite"
-      numberOfPeople={3}
-    />
+    <BookingSuccess/>
   );
 }
