@@ -485,12 +485,12 @@ const CustomBookingEnginePage: React.FC = () => {
       // }
 
       const data = await response.json();
-      console.log("reservation data", data);
+      console.log("reservation data", data.booking._id);
 
       // Close form and reset
       setContactFormOpen(false);
       setMainContactFormOpen(false);
-      navigate("/successfulBooking");
+      navigate(`/successfulBooking/${data.booking._id}`);
     } catch (error) {
       console.error("Reservation error:", error);
       alert("Something went wrong!!");
