@@ -460,13 +460,15 @@ const CustomBookingEnginePage: React.FC = () => {
         guests: totalGuests,
         bookingDate: new Date(),
         type: selectedType === "DELUXE ROOM" ? "deluxe" : "suite",
-        promoCode: promoCode,
+        promoCode: promoCode || "no code",
         contactDetails: contactFormData,
       };
 
+      console.log(reservationData)
       // Make API call
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/bookings/add-booking`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/add-booking`
+        ,
         {
           method: "POST",
           headers: {
@@ -477,16 +479,17 @@ const CustomBookingEnginePage: React.FC = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to create reservation");
-      }
+      // if (!response.ok) {
+      //   console.log("error")
+      //   // throw new Error("Failed to create reservation");
+      // }
 
       const data = await response.json();
       console.log("reservation data", data);
 
       // Close form and reset
       setContactFormOpen(false);
-      setMainContactFormOpen(true);
+      setMainContactFormOpen(false);
     } catch (error) {
       console.error("Reservation error:", error);
     } finally {
@@ -630,7 +633,8 @@ const CustomBookingEnginePage: React.FC = () => {
       nightsStay={nightsStay}
       totalPrices={totalPrices}
       setMainContactFormOpen={setMainContactFormOpen}
-      setContactFormOpen={setContactFormOpen}/>
+      setContactFormOpen={setContactFormOpen}
+      />
 
 
       <PromoCodeForm

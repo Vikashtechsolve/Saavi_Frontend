@@ -18,6 +18,7 @@ import SauravSingh from "../../public/assets/SauravSingh.jfif"
 import Manasvi from "../../public/assets/manasvi.jpeg"
 
 export const content = {
+
   company: {
     name: "Saavi",
     description: "Experience luxury and comfort at our world-class hotels and resorts.",
