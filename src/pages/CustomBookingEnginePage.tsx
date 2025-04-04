@@ -490,8 +490,10 @@ const CustomBookingEnginePage: React.FC = () => {
       // Close form and reset
       setContactFormOpen(false);
       setMainContactFormOpen(false);
+      navigate("/successfulBooking");
     } catch (error) {
       console.error("Reservation error:", error);
+      alert("Something went wrong!!");
     } finally {
       setIsLoading(false);
     }
