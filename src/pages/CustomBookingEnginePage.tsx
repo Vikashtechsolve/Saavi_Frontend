@@ -467,7 +467,7 @@ const CustomBookingEnginePage: React.FC = () => {
       console.log(reservationData)
       // Make API call
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/bookings/add-booking`
+        `${import.meta.env.VITE_API_URL}/bookings/add-booking`
         ,
         {
           method: "POST",
