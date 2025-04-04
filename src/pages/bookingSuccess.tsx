@@ -34,18 +34,13 @@ const BookingSuccess = () => {
   const [booking, setBooking] = useState<BookingDetails | null>(null);
 
   useEffect(() => {
-    console.log("success", bookingId.bookingId);
+    console.log("success", `${import.meta.env.VITE_API_URL}/bookings/${bookingId.bookingId}`);
 
     const fetchBookingById = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId.bookingId}`
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings/${bookingId.bookingId}`
           //  ${import.meta.env.VITE_BACKEND_URL}
-          , {
-          headers: {
-
-            'ngrok-skip-browser-warning': '6941',
-          },
-        });
+         );
 
         if (!response.ok) {
           throw new Error("Failed to fetch booking by ID");
