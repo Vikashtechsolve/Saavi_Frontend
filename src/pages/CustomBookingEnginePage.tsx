@@ -429,6 +429,8 @@ const CustomBookingEnginePage: React.FC = () => {
     setContactFormOpen(true);
   };
 
+const [totalCost,setTotalCost]=useState<number>(0);
+
   const submitReservation = async () => {
     // Validate form
     if (
@@ -452,7 +454,7 @@ const CustomBookingEnginePage: React.FC = () => {
         checkIn: checkInDate?.toISOString(),
         checkOut: checkOutDate?.toISOString(),
         userId: "1",
-        cost: 3000,
+        cost: (totalPrices.totalBreakfastPrice+totalPrices.totalMealPrice+totalPrices.totalRoomsOnlyPrice)+((totalPrices.totalBreakfastPrice+totalPrices.totalMealPrice+totalPrices.totalRoomsOnlyPrice)*12/100),
         destination: hotelData.address,
         hotelId: searchParams.get("hotelId"),
         rooms: Object.values(selectedRooms[currentRoomId]).reduce(
@@ -534,6 +536,7 @@ const CustomBookingEnginePage: React.FC = () => {
   });
 
   const [clicked, setClicked] = useState(false);
+
   return (
     <div className="flex flex-col lg:flex-row w-full border border-gray-300 bg-white shadow-md">
       {/* Left side - Calendar and Guest Selection */}
