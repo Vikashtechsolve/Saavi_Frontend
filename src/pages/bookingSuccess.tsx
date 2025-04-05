@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 interface ContactDetails {
@@ -30,7 +30,7 @@ interface BookingDetails {
 }
 const BookingSuccess = () => {
   const bookingId=useParams();
-
+  const navigate=useNavigate();
   const [booking, setBooking] = useState<BookingDetails | null>(null);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const BookingSuccess = () => {
         <p className="text-yellow-600 font-medium">
           Kindly pay at the hotel during check-in.
         </p>
-      <button className="bg-red-900 p-2 mt-4 text-white">Home</button>
+      <button className="bg-red-900 p-2 mt-4 text-white" onClick={()=>{navigate('/')}}>Home</button>
       </div>
     </div>
   );

@@ -381,7 +381,9 @@ const CustomBookingEnginePage: React.FC = () => {
     if (totalGuests === 0) {
       alert("At least one guest is required");
       return false;
-    }
+    }else{
+    setClicked(true);}
+
     return true;
   };
 
@@ -531,6 +533,7 @@ const CustomBookingEnginePage: React.FC = () => {
     totalMealPrice: 0,
   });
 
+  const [clicked, setClicked] = useState(false);
   return (
     <div className="flex flex-col lg:flex-row w-full border border-gray-300 bg-white shadow-md">
       {/* Left side - Calendar and Guest Selection */}
@@ -551,12 +554,12 @@ const CustomBookingEnginePage: React.FC = () => {
             "w-full py-3 font-medium text-center",
             !checkInDate || !checkOutDate
               ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-brown-800 text-white hover:bg-brown-900"
+              : clicked?"bg-white text-red-900 border-red-900":"text-white"
           )}
           onClick={checkAvailability}
           disabled={!checkInDate || !checkOutDate}
         >
-          CHECK AVAILABILITY
+          {clicked? "AVAILABLE":"CHECK AVAILABILITY"}
         </button>
 
         <div className="mt-4">
