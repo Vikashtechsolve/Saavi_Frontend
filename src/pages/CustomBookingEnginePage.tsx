@@ -294,7 +294,7 @@ type PriceData = {
 const CustomBookingEnginePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [dateRange, setDateRange] = useState<DateRange>([null, null]);
+  const [dateRange, setDateRange] = useState<DateRange>([null,null]);
   const [adults, setAdults] = useState<number>(2);
   const [selectedType, setSelectedType] = useState<string>("");
   const [children, setChildren] = useState<number>(0);
@@ -310,6 +310,24 @@ const CustomBookingEnginePage: React.FC = () => {
     email: "",
     phone: "",
   });
+
+  useEffect(() => {
+    setDateRange(() => {
+      const storedDates = localStorage.getItem('dateRange');
+      console.log("storedDatesssssss",storedDates);
+      if (storedDates) {
+        const parsedDates: [string, string] = JSON.parse(storedDates);
+        // localStorage.removeItem('dateRange');
+        return [
+          parsedDates[0] ? new Date(parsedDates[0]) : null,
+          parsedDates[1] ? new Date(parsedDates[1]) : null,
+        ];
+      }
+      return [null, null];
+    })
+    
+  }, [])
+  
   const [hotelData, setHotelData] = useState<any>(null);
 
   const [roomData, setRoomData] = useState<RoomData>({ totalRoomsOnly: 0, totalBreakfast: 0, totalMeal: 0 });
