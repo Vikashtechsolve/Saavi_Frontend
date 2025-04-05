@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -14,7 +14,7 @@ import GuestSelector from "../components/booking/GuestSelector";
 import RoomCard from "../components/booking/RoomCard";
 import { rooms } from "../data/rooms";
 import { useSearchParams, useNavigate } from "react-router-dom";
-
+import ReactWhatsapp from "react-whatsapp";
 
 type DateRange = [Date | null, Date | null];
 
@@ -40,7 +40,7 @@ const ContactForm = ({
       [name]: value,
     }));
   };
-
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
@@ -290,7 +290,28 @@ type PriceData = {
   totalBreakfastPrice: number;
   totalMealPrice: number;
 };
-
+type ReservationData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  checkIn: string | undefined;
+  checkOut: string | undefined;
+  userId: string;
+  cost: number;
+  destination: string;
+  hotelId: string | null;
+  rooms: number;
+  guests: number;
+  bookingDate: Date;
+  type: string;
+  promoCode: string;
+  contactDetails: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  };
+};
 const CustomBookingEnginePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -311,6 +332,7 @@ const CustomBookingEnginePage: React.FC = () => {
     phone: "",
   });
 
+
   useEffect(() => {
     setDateRange(() => {
       const storedDates = localStorage.getItem('dateRange');
@@ -325,7 +347,7 @@ const CustomBookingEnginePage: React.FC = () => {
       }
       return [null, null];
     })
-    
+
   }, [])
   
   const [hotelData, setHotelData] = useState<any>(null);
@@ -446,8 +468,46 @@ const CustomBookingEnginePage: React.FC = () => {
 
     setContactFormOpen(true);
   };
+  
+  const emailSending = async (reservationData:ReservationData,bookingId: string) =>{
+    try {
+      setIsLoading(true);
 
-const [totalCost,setTotalCost]=useState<number>(0);
+      // Prepare reservation data
+      
+
+      console.log("Inner reservationnnn",reservationData)
+      // Make API call
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/send-email`
+        ,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reservationData),
+        }
+      );
+
+      // if (!response.ok) {
+      //   console.log("error")
+      //   // throw new Error("Failed to create reservation");
+      // }
+
+      const data = await response;
+      console.log("reservation data", data);
+
+      setContactFormOpen(false);
+      setMainContactFormOpen(false);
+      navigate(`/successfulBooking/${bookingId}`);
+    } catch (error) {
+      console.error("Reservation error:", error);
+      alert("Something went wrong!!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const submitReservation = async () => {
     // Validate form
@@ -465,7 +525,7 @@ const [totalCost,setTotalCost]=useState<number>(0);
       setIsLoading(true);
 
       // Prepare reservation data
-      const reservationData = {
+      const reservationData:ReservationData = {
         firstName: contactFormData.firstName,
         lastName: contactFormData.lastName,
         email: contactFormData.email,
@@ -509,10 +569,9 @@ const [totalCost,setTotalCost]=useState<number>(0);
       const data = await response.json();
       console.log("reservation data", data.booking._id);
 
-      // Close form and reset
-      setContactFormOpen(false);
-      setMainContactFormOpen(false);
-      navigate(`/successfulBooking/${data.booking._id}`);
+      await emailSending(reservationData,data.booking._id);
+
+      
     } catch (error) {
       console.error("Reservation error:", error);
       alert("Something went wrong!!");
@@ -652,7 +711,15 @@ const [totalCost,setTotalCost]=useState<number>(0);
         setContactFormData={setContactFormData}
         onSubmit={submitReservation}
       />
-
+      {/* <ReactWhatsapp
+  ref={whatsappRef}
+  number="919358600733" // <-- Replace with your WhatsApp number
+  message=""
+  element="button"
+  style={{ display: "none" }}
+>
+  Send WhatsApp
+</ReactWhatsapp> */}
       <GSTInfoPage
       isOpen={contactFormOpen}
       roomData={roomData || { totalRoomsOnly: 0, totalBreakfast: 0, totalMeal: 0 }}
