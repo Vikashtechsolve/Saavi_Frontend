@@ -62,7 +62,15 @@ const BookingSuccess = () => {
       <div>Loading booking...</div>
       </div>);
   }
-  
+
+  const formatDate = (isoString: string): string => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
@@ -72,20 +80,20 @@ const BookingSuccess = () => {
         </p>
 
         <div className="text-left text-gray-800 space-y-2 mb-6">
-          <h2 className="text-2xl font-bold text-black mb-4">Booking Information</h2>
-          <p><span className="font-semibold">Hotel Name:</span> {booking.hotelName}</p>
-          <p><span className="font-semibold">Check In Date:</span> {booking.checkIn}</p>
-          <p><span className="font-semibold">Check Out Date:</span> {booking.checkOut}</p>
-          <p><span className="font-semibold">Cost:</span> {booking.cost}</p>
-          <p><span className="font-semibold">Destination:</span> {booking.destination}</p>
-          <p><span className="font-semibold">Rooms:</span> {booking.rooms}</p>
-          <p><span className="font-semibold">Guests:</span> {booking.guests}</p>
-          <p><span className="font-semibold">Booking Date:</span> {booking.bookingDate}</p>
-          <h2 className="text-2xl font-bold text-black mb-4">Personal Information</h2>
+          <h2 className="text-2xl font-bold text-black pt-4">Personal Information</h2>
           <p><span className="font-semibold">First Name:</span> {booking.contactDetails.firstName}</p>
           <p><span className="font-semibold">Last Name:</span> {booking.contactDetails.lastName}</p>
           <p><span className="font-semibold">Email:</span> {booking.contactDetails.email}</p>
           <p><span className="font-semibold">Phone No:</span> {booking.contactDetails.phone}</p>
+          <h2 className="text-2xl font-bold text-black pt-4">Booking Information</h2>
+          <p><span className="font-semibold">Hotel Name:</span> {booking.hotelName}</p>
+          <p><span className="font-semibold">Check In Date:</span> {formatDate(booking.checkIn)}</p>
+          <p><span className="font-semibold">Check Out Date:</span> {formatDate(booking.checkOut)}</p>
+          <p><span className="font-semibold">Total Cost:</span> {booking.cost}</p>
+          <p><span className="font-semibold">Destination:</span> {booking.destination}</p>
+          <p><span className="font-semibold">Rooms:</span> {booking.rooms}</p>
+          <p><span className="font-semibold">Guests:</span> {booking.guests}</p>
+          <p><span className="font-semibold">Booking Date:</span> {formatDate(booking.bookingDate)}</p>
         </div>
 
         <p className="text-yellow-600 font-medium">
