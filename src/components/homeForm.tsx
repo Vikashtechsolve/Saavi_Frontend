@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-toastify/dist/ReactToastify.css'; // Import the default styling for the toasts
 import { Search, Users, Building2, Calendar, ChevronDown, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { log } from 'node:console';
 
 const BookingForm = () => {
   const [destination, setDestination] = useState('');
@@ -60,6 +61,10 @@ const BookingForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
     if (validateInputs()) {
+      const dateRangeString = JSON.stringify([checkIn,checkOut]);
+      console.log("HomeFormmmm",[checkIn,checkOut]);
+      
+      localStorage.setItem('dateRange', dateRangeString);
       navigate(`/hotels?destination=${encodeURIComponent(destination)}`);
     }
     
