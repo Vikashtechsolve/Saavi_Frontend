@@ -14,7 +14,7 @@ import GuestSelector from "../components/booking/GuestSelector";
 import RoomCard from "../components/booking/RoomCard";
 import { rooms } from "../data/rooms";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import ReactWhatsapp from "react-whatsapp";
+
 
 type DateRange = [Date | null, Date | null];
 
@@ -500,7 +500,7 @@ const CustomBookingEnginePage: React.FC = () => {
 
       setContactFormOpen(false);
       setMainContactFormOpen(false);
-      navigate(`/successfulBooking/${bookingId}`);
+      // navigate(`/successfulBooking/${bookingId}`);
     } catch (error) {
       console.error("Reservation error:", error);
       alert("Something went wrong!!");
@@ -661,7 +661,6 @@ const CustomBookingEnginePage: React.FC = () => {
           <h2 className="text-xl">
             Select the accommodation that suits you best
           </h2>
-
           {checkInDate && checkOutDate ? (
             <div className="flex items-center mt-3">
               <FontAwesomeIcon icon={faUser} className="text-gray-600 mr-2" />
@@ -711,15 +710,7 @@ const CustomBookingEnginePage: React.FC = () => {
         setContactFormData={setContactFormData}
         onSubmit={submitReservation}
       />
-      {/* <ReactWhatsapp
-  ref={whatsappRef}
-  number="919358600733" // <-- Replace with your WhatsApp number
-  message=""
-  element="button"
-  style={{ display: "none" }}
->
-  Send WhatsApp
-</ReactWhatsapp> */}
+      
       <GSTInfoPage
       isOpen={contactFormOpen}
       roomData={roomData || { totalRoomsOnly: 0, totalBreakfast: 0, totalMeal: 0 }}
