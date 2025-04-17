@@ -495,12 +495,12 @@ const CustomBookingEnginePage: React.FC = () => {
       //   // throw new Error("Failed to create reservation");
       // }
 
-      const data = await response;
-      console.log("reservation data", data);
+      // const data = response;
+      // console.log("reservationnnnnnnnn data", data);
 
       setContactFormOpen(false);
       setMainContactFormOpen(false);
-      // navigate(`/successfulBooking/${bookingId}`);
+      navigate(`/successfulBooking/${bookingId}`);
     } catch (error) {
       console.error("Reservation error:", error);
       alert("Something went wrong!!");
@@ -571,7 +571,6 @@ const CustomBookingEnginePage: React.FC = () => {
 
       await emailSending(reservationData,data.booking._id);
 
-      
     } catch (error) {
       console.error("Reservation error:", error);
       alert("Something went wrong!!");
