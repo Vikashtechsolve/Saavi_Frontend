@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faChild,
-  faChevronUp,
-  faChevronDown,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
@@ -30,8 +28,6 @@ interface RoomCardProps {
 const RoomCard: React.FC<RoomCardProps> = ({
   room,
   setRoomData,
-  roomData,
-  expanded,
   setTotalPrices,
   totalGuests,
   nightsStay,
