@@ -363,7 +363,9 @@ const CustomBookingEnginePage: React.FC = () => {
         ];
       }
       return [null, null];
-    })
+    });
+
+    localStorage.removeItem('dateRange');
 
   }, [])
   
