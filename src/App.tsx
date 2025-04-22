@@ -19,6 +19,7 @@ import { Analytics } from '@vercel/analytics/react';
 import ScrollToTop from './lib/scroolToTop';
 import CustomBookingEnginePage from '@/pages/CustomBookingEnginePage';
 import BookingPage from './pages/bookingSuccess';
+import ReactWhatsapp from 'react-whatsapp';
 
 function App() {
   return (
@@ -45,6 +46,35 @@ function App() {
             <Route path="/custom-booking-engine" element={<CustomBookingEnginePage />} />
           </Routes>
         </main>
+        <ReactWhatsapp
+      number="+91 7290006773"
+      message="Hi there!"
+      element="button"
+      style={{
+        position: 'fixed',
+        padding:'0px',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: '#25D366',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '50%',
+        width: '60px',
+        height: '60px',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        cursor: 'pointer',
+        // display: 'flex',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        zIndex: 1000,
+      }}
+    >
+      <img
+              src="/assets/whatsapp.png"
+              alt={"whatsapp image"}
+              className=" bg-cover w-fit h-fit p-3"
+            />
+        </ReactWhatsapp>
         <Footer />
       </div>
       <Analytics />
