@@ -1,50 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faChild,
   faInfoCircle,
+  faBed, faCoffee,faUtensils
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import { RoomType } from "../../types/booking";
 import PaymentForm from "../payment/paymentGateway";
 
 interface RoomCardProps {
-  room: RoomType;
+  index:number;
   setRoomData:object;
   roomData:object;
   setTotalPrices:object;
-  expanded: boolean;
   totalGuests: number;
   nightsStay: number;
   children: number;
+  hotelData:object;
   selectedRooms: Record<string, Record<string, number>>;
-  onToggleDetails: () => void;
-  onSelectRoom: (roomId: string, planId: string, count: number) => void;
-  onReserve: (roomId: string) => void;
-  onSelectType: (type: string) => void;
+  onSelectRoom: (roomId: number, planId: number, count: number) => void;
+  onReserve: (roomId: number) => void;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({
-  room,
+  index,
   setRoomData,
   setTotalPrices,
   totalGuests,
   nightsStay,
   children,
   selectedRooms,
-  onToggleDetails,
+  hotelData,
   onSelectRoom,
   onReserve,
-  onSelectType,
 }) => {
-
-  const handleSelectRoom = (roomId: string, planId: string, count: number) => {
+  
+  const handleSelectRoom = (roomId: number, planId: number, count: number) => {
     // Call the existing onSelectRoom function
     onSelectRoom(roomId, planId, count);
     
     // Determine which count to update based on the planId
-   const selectedPlan = room.ratePlans.find((plan) => plan.id === planId);
+   const selectedPlan = hotelData.rooms[roomId].plans[planId];
   const totalPrice = selectedPlan ? selectedPlan.price * nightsStay * count : 0;
 
   // Determine which count and price to update
@@ -52,15 +50,15 @@ const RoomCard: React.FC<RoomCardProps> = ({
   let updatedPrices = {};
 
   switch (planId) {
-    case 'ep': // Room Only
+    case 0: // Room Only
       updatedCounts = { totalRoomsOnly: count };
       updatedPrices = { totalRoomsOnlyPrice: totalPrice };
       break;
-    case 'cp': // Breakfast Included
+    case 1: // Breakfast Included
       updatedCounts = { totalBreakfast: count };
       updatedPrices = { totalBreakfastPrice: totalPrice };
       break;
-    case 'map': // Breakfast and 1 Major Meal
+    case 2: // Breakfast and 1 Major Meal
       updatedCounts = { totalMeal: count };
       updatedPrices = { totalMealPrice: totalPrice };
       break;
@@ -80,14 +78,19 @@ const RoomCard: React.FC<RoomCardProps> = ({
     ...updatedPrices,
   }));
 
+  
+
+console.log("updated counttttttt",updatedCounts,updatedPrices);
+
   };
+  
   return (
     <div className="room-card bg-white mb-4 border-b border-gray-200">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/3 h-48 md:h-auto relative">
           <img
-            src={room.image}
-            alt={room.title}
+            src={hotelData.imageUrls[hotelData.imageUrls.length - index-1]}
+            alt={"card images"}
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-0 left-0 w-full flex justify-center space-x-1 p-2">
@@ -103,10 +106,10 @@ const RoomCard: React.FC<RoomCardProps> = ({
         </div>
         <div className="md:w-2/3 p-4">
           <div className="flex justify-between">
-            <h3 className="text-xl font-bold text-red-900">{room.title}</h3>
+            <h3 className="text-xl font-bold text-red-900">{hotelData.rooms[index].type.toUpperCase()}</h3>
             <div className="text-right">
               <p className="text-sm text-gray-600">Starting From</p>
-              <p className="text-2xl font-bold">₹ {room.startingPrice}</p>
+              <p className="text-2xl font-bold">₹ {hotelData.rooms[index].minPrice}</p>
               <p className="text-xs text-gray-500">Avg per night</p>
               <p className="text-xs text-gray-500">taxes excluded</p>
             </div>
@@ -115,7 +118,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
           <div className="mt-2">
             <div className="flex items-center">
               <span className="mr-2">Max Guests:</span>
-              {Array(room.maxGuests)
+              {Array(3)
                 .fill(0)
                 .map((_, idx) => (
                   <FontAwesomeIcon
@@ -124,7 +127,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                     className="text-red-900 mr-1"
                   />
                 ))}
-              {totalGuests > room.maxGuests && (
+              {totalGuests >= 3 && (
                 <span className="text-red-500 text-xs ml-2">
                   (Exceeds capacity)
                 </span>
@@ -132,7 +135,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
             </div>
             <div className="flex items-center">
               <span className="mr-2">Max Children:</span>
-              {Array(room.maxChildren)
+              {Array(1)
                 .fill(0)
                 .map((_, idx) => (
                   <FontAwesomeIcon
@@ -141,14 +144,14 @@ const RoomCard: React.FC<RoomCardProps> = ({
                     className="text-red-900 mr-1"
                   />
                 ))}
-              {children > room.maxChildren && (
+              {children >= 1 && (
                 <span className="text-red-500 text-xs ml-2">
                   (Exceeds capacity)
                 </span>
               )}
             </div>
 
-            <p className="mt-2 text-gray-700">{room.description}</p>
+            <p className="mt-2 text-gray-700">{hotelData.rooms[index].description}</p>
           </div>
 
         </div>
@@ -163,19 +166,19 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <p className="font-medium">Rooms</p>
           </div>
 
-          {room.ratePlans.map((plan) => (
+          {hotelData.rooms[index].plans.map((room,planIndex) => (
             <div
-              key={plan.id}
+              key={planIndex}
               className="grid grid-cols-3 gap-4 mt-4 items-center"
             >
               <div className="flex items-center">
                 <div className="mr-2">
-                  <FontAwesomeIcon icon={plan.icon} />
+                  <FontAwesomeIcon icon={planIndex==0?faBed:planIndex==1?faCoffee:faUtensils} />
                 </div>
                 <div>
-                  <p>{plan.name}</p>
+                  <p>{room.name}</p>
                   <div className="flex items-center">
-                    <p className="text-xs text-gray-500 mr-1">{plan.code}</p>
+                    <p className="text-xs text-gray-500 mr-1">{room.id}</p>
                     <FontAwesomeIcon
                       icon={faInfoCircle}
                       className="text-gray-500 text-xs"
@@ -185,18 +188,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
               </div>
 
               <div>
-                <p>₹ {plan.price * nightsStay}</p>
+                <p>₹ {room.price * nightsStay}</p>
                 <p className="text-xs text-gray-500">
-                  ₹ {plan.price} per night
+                  ₹ {room.price} per night
                 </p>
               </div>
 
               <div>
                 <select
                   className="border border-gray-300 rounded-md p-2 w-full bg-white"
-                  value={selectedRooms[room.id]?.[plan.id] || 0}
+                  value={selectedRooms[index]?.[planIndex] || 0}
                   onChange={(e) =>
-                handleSelectRoom(room.id, plan.id, parseInt(e.target.value))
+                handleSelectRoom(index, planIndex, parseInt(e.target.value))
               }
                   disabled={totalGuests > room.maxGuests}
                 >
@@ -215,18 +218,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <button
               className={clsx(
                 "px-10 py-2 rounded-md",
-                totalGuests > room.maxGuests ||
-                  !Object.keys(selectedRooms[room.id] || {}).some(
-                    (key) => (selectedRooms[room.id] || {})[key] > 0
+                totalGuests >= 3 ||
+                  !Object.keys(selectedRooms[index] || {}).some(
+                    (key) => (selectedRooms[index] || {})[key] > 0
                   )
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                   : "bg-red-900 text-white hover:bg-red-800"
               )}
-              onClick={() => onReserve(room.id)}
+              onClick={() => onReserve(index)}
               disabled={
-                totalGuests > room.maxGuests ||
-                !Object.keys(selectedRooms[room.id] || {}).some(
-                  (key) => (selectedRooms[room.id] || {})[key] > 0
+                totalGuests >= 3 ||
+                !Object.keys(selectedRooms[index] || {}).some(
+                  (key) => (selectedRooms[index] || {})[key] > 0
                 )
               }
             >

@@ -4,6 +4,8 @@ import deluxRoom from "/assets/delux_room_img_1.jpg";
 import suiteRoom from "/assets/suite_room_1.jpg";
 import { RoomType } from "../types/booking";
 
+
+
 export const rooms: RoomType[] = [
     {
         id: "standard",
@@ -21,7 +23,7 @@ export const rooms: RoomType[] = [
                 code: "EP",
                 icon: faBed,
                 description: "Room only, no meals included",
-                price: 3000,
+                price: 2300,
             },
             {
                 id: "cp",
@@ -29,7 +31,7 @@ export const rooms: RoomType[] = [
                 code: "CP",
                 icon: faCoffee,
                 description: "Room with breakfast included",
-                price: 3600,
+                price: 2700,
             },
             {
                 id: "map",
@@ -37,10 +39,10 @@ export const rooms: RoomType[] = [
                 code: "MAP",
                 icon: faUtensils,
                 description: "Room with breakfast included",
-                price: 3600,
+                price: 3300,
             },
         ],
-        startingPrice: 3000,
+        startingPrice: 2300,
     },
     {
         id: "Deluxe",
@@ -58,7 +60,7 @@ export const rooms: RoomType[] = [
                 code: "EP",
                 icon: faBed,
                 description: "Room only, no meals included",
-                price: 3500,
+                price: 2500,
             },
             {
                 id: "cp",
@@ -66,7 +68,7 @@ export const rooms: RoomType[] = [
                 code: "CP",
                 icon: faCoffee,
                 description: "Room with breakfast included",
-                price: 4100,
+                price: 2900,
             },
             {
                 id: "map",
@@ -74,10 +76,10 @@ export const rooms: RoomType[] = [
                 code: "MAP",
                 icon: faUtensils,
                 description: "Breakfast and 1 Major Meal Included",
-                price: 3600,
+                price: 3500,
             },
         ],
-        startingPrice: 3500,
+        startingPrice: 2500,
     },
     {
         id: "Presidential",
@@ -95,7 +97,7 @@ export const rooms: RoomType[] = [
                 code: "EP",
                 icon: faBed,
                 description: "Room only, no meals included",
-                price: 3500,
+                price: 3000,
             },
             {
                 id: "cp",
@@ -103,7 +105,7 @@ export const rooms: RoomType[] = [
                 code: "CP",
                 icon: faCoffee,
                 description: "Room with breakfast included",
-                price: 4100,
+                price: 3400,
             },
             {
                 id: "map",
@@ -111,9 +113,9 @@ export const rooms: RoomType[] = [
                 code: "MAP",
                 icon: faUtensils,
                 description: "Breakfast and 1 Major Meal Included",
-                price: 3600,
+                price: 4000,
             },
         ],
-        startingPrice: 3500,
+        startingPrice: 3000,
     },
 ];

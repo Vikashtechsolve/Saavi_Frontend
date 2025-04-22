@@ -14,6 +14,7 @@ import GuestSelector from "../components/booking/GuestSelector";
 import RoomCard from "../components/booking/RoomCard";
 import { rooms } from "../data/rooms";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 type DateRange = [Date | null, Date | null];
@@ -322,17 +323,33 @@ const CustomBookingEnginePage: React.FC = () => {
   const [infants, setInfants] = useState<number>(0);
   const [contactFormOpen, setContactFormOpen] = useState<boolean>(false);
   const [mainContactFormOpen, setMainContactFormOpen] = useState<boolean>(false);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [promoCodeOpen, setPromoCodeOpen] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>("");
+  const [loading, setLoading] = useState(true)
   const [contactFormData, setContactFormData] = useState<any>({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
   });
+  // const hotelId = searchParams.get("hotelId");
+  // const [backend_room_data, setBackendRoomData] = useState(null);
+  // useEffect(() => {
+  //   const fetchHotel = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:8000/api/hotels/680658f731329098d4a76cec");
+  //       setBackendRoomData(response.data);
+  //       console.log(response.data); // you can also log if you want
+  //     } catch (error) {
+  //       console.error("Error fetching hotel:", error);
+  //     }
+  //   };
 
+  //   console.log(fetchHotel());
+     
+  // }, []); // empty dependency = call once when component mounts
 
+  
   useEffect(() => {
     setDateRange(() => {
       const storedDates = localStorage.getItem('dateRange');
@@ -357,7 +374,7 @@ const CustomBookingEnginePage: React.FC = () => {
   const [selectedRooms, setSelectedRooms] = useState<
     Record<string, Record<string, number>>
   >({});
-  const [currentRoomId, setCurrentRoomId] = useState<string>("");
+  const [currentRoomId, setCurrentRoomId] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchHotelData = async (hotelId: string) => {
@@ -372,6 +389,8 @@ const CustomBookingEnginePage: React.FC = () => {
       }
     );
     const data = await response.json();
+    console.log("dataaaaaaaaaaaaaa",data);
+    setLoading(false);
     setHotelData(data);
   };
 
@@ -387,14 +406,14 @@ const CustomBookingEnginePage: React.FC = () => {
   const checkOutDate = dateRange[1];
 
   // Helper functions
-  const toggleRoomDetails = (roomId: string) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [roomId]: !prev[roomId],
-    }));
-  };
+  // const toggleRoomDetails = (roomId: string) => {
+  //   setExpanded((prev) => ({
+  //     ...prev,
+  //     [roomId]: !prev[roomId],
+  //   }));
+  // };
 
-  const selectRoom = (roomId: string, planId: string, count: number) => {
+  const selectRoom = (roomId: number, planId: number, count: number) => {
     setSelectedRooms((prev) => ({
       ...prev,
       [roomId]: {
@@ -434,7 +453,7 @@ const CustomBookingEnginePage: React.FC = () => {
     // Continue with availability check
   };
 
-  const handleReservation = (roomId: string) => {
+  const handleReservation = (roomId: number) => {
     console.log(roomData,totalPrices)
     if (!validateBooking()) {
       return;
@@ -455,9 +474,8 @@ const CustomBookingEnginePage: React.FC = () => {
     }
 
     // Validate against room capacity
-    const room = rooms.find((r) => r.id === roomId);
-    if (room && totalGuests > room.maxGuests) {
-      alert(`This room type can only accommodate ${room.maxGuests} guests`);
+    if ( totalGuests > 3) {
+      alert(`This room type can only accommodate 3 guests`);
       return;
     }
 
@@ -612,7 +630,9 @@ const CustomBookingEnginePage: React.FC = () => {
   });
 
   const [clicked, setClicked] = useState(false);
-
+if(loading) return <div className="h-[100vh] w-full flex justify-center items-center">
+  Loading....
+</div>
   return (
     <div className="flex flex-col lg:flex-row w-full border border-gray-300 bg-white shadow-md">
       {/* Left side - Calendar and Guest Selection */}
@@ -680,21 +700,18 @@ const CustomBookingEnginePage: React.FC = () => {
           )}
         </div>
         <div className="room-listings">
-          {rooms.map((room) => (
+          {hotelData.rooms.map((_,index) => (
             <RoomCard
-              key={room.id}
               setTotalPrices={setTotalPrices}
               setRoomData={setRoomData}
+              index={index}
               roomData={roomData}
-              room={room}
-              expanded={expanded[room.id]}
+              hotelData={hotelData}
               totalGuests={totalGuests}
               nightsStay={nightsStay}
               children={children}
               selectedRooms={selectedRooms}
-              onToggleDetails={() => toggleRoomDetails(room.id)}
               onSelectRoom={selectRoom}
-              onSelectType={setSelectedType}
               onReserve={handleReservation}
             />
           ))}
