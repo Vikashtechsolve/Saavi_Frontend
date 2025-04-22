@@ -17,8 +17,6 @@ import homeImage2 from "../../public/assets/homeImage2.png";
 import homeImage3 from "../../public/assets/HomeImage3.png";
 import BookingSearchForm from "@/components/mobileHomeForm";
 import S4 from '../../public/assets/s4.jpg';
-import ReactWhatsapp from 'react-whatsapp';
-import whatsappImg from "../../public/assets/whatsapp.png";
 import { useNavigate } from "react-router-dom";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -550,35 +548,7 @@ export default function Home() {
   return (
     <ParallaxProvider>
       <div className="">
-        <ReactWhatsapp
-      number="+91 7290006773"
-      message="Hi there!"
-      element="button"
-      style={{
-        position: 'fixed',
-        padding:'0px',
-        bottom: '20px',
-        right: '20px',
-        backgroundColor: '#25D366',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '50%',
-        width: '60px',
-        height: '60px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        cursor: 'pointer',
-        // display: 'flex',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        zIndex: 1000,
-      }}
-    >
-      <img
-              src={whatsappImg}
-              alt={"whatsapp image"}
-              className=" bg-cover w-fit h-fit p-3"
-            />
-        </ReactWhatsapp>
+        
         {/* Hero Section */}
         <motion.section
           initial={{ opacity: 0 }}
