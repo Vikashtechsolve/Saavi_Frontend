@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import GalleryItem from "../components/galleryItem";
+import { Helmet } from 'react-helmet-async';
 
 const Gallery = () => {
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
@@ -82,20 +83,35 @@ const Gallery = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1 className="text-4xl font-bold text-[#8B2B06] text-center mb-16">OUR GALLERY</h1>
-      <div style={{ display: "flex", gap: "15px", flexWrap: "wrap", justifyContent: "center", marginBottom: "30px" }}>
-        {components.map((component) => (
-          <GalleryItem
-            key={component.id}
-            text={component.text}
-            onClick={() => handleComponentClick(component.folder)}
-            isSelected={selectedFolder === component.folder}
-          />
-        ))}
-      </div>
+    <>
+      <Helmet>
+        <title>Our Gallery – Explore Saavi Hotels & Resorts</title>
+        <meta name="description" content="View stunning photos of Saavi Hotels and Resorts across India. From cozy rooms to scenic locations, discover what makes Saavi a unique stay experience." />
+        <meta name="keywords" content="Saavi Hotels Gallery, hotel photos, resort images, Saavi room pictures, hotel gallery India" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Saavi Hotel" />
+        <link rel="canonical" href="https://www.saavihotels.com/gallery" />
+        <meta property="og:title" content="Our Gallery – Explore Saavi Hotels & Resorts" />
+        <meta property="og:description" content="View stunning photos of Saavi Hotels and Resorts across India. From cozy rooms to scenic locations, discover what makes Saavi a unique stay experience." />
+        <meta property="og:url" content="https://www.saavihotels.com/gallery" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.saavihotels.com/images/gallery-og.jpg" />
+      </Helmet>
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1 className="text-4xl font-bold text-[#8B2B06] text-center mb-16">OUR GALLERY</h1>
+        <div style={{ display: "flex", gap: "15px", flexWrap: "wrap", justifyContent: "center", marginBottom: "30px" }}>
+          {components.map((component) => (
+            <GalleryItem
+              key={component.id}
+              text={component.text}
+              onClick={() => handleComponentClick(component.folder)}
+              isSelected={selectedFolder === component.folder}
+            />
+          ))}
+        </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center" }}>
   {selectedFolder === "ALL"
     ? renderAllImages()
     : selectedFolder &&  // Check if selectedFolder is not null
@@ -138,6 +154,7 @@ const Gallery = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

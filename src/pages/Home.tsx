@@ -4,7 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { content } from "@/lib/content";
 import { images } from "../../public/assets/export";
 import { useEffect, useState, useRef } from "react";
-import { useInView } from 'react-intersection-observer'; // Import Intersection Observer hook
+import { useInView } from 'react-intersection-observer';
+import { Helmet } from 'react-helmet-async';
 import WhyChooseSaavi from "@/components/whychoosesaavi";
 import PerfectGateway from "@/components/perfectgateway";
 // import background_Image2 from "../../public/assets/backgroundImage2.png";
@@ -547,6 +548,20 @@ export default function Home() {
 
   return (
     <ParallaxProvider>
+      <Helmet>
+        <title>Saavi Hotel | Comfortable, Affordable, and Elegant Stay</title>
+        <meta name="description" content="Saavi Hotel offers elegant and affordable accommodations with premium amenities. Located in the heart of the city. Book your stay today!" />
+        <meta name="keywords" content="Saavi Hotel, luxury hotel, affordable stay, hotel booking, city center hotel, best hotels" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="Saavi Hotel" />
+        <link rel="canonical" href="https://www.saavihotel.com/" />
+        <meta property="og:title" content="Saavi Hotel | Elegant & Affordable Stay" />
+        <meta property="og:description" content="Book your stay at Saavi Hotel – affordable luxury, city-center location, and premium comfort." />
+        <meta property="og:url" content="https://www.saavihotel.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.saavihotel.com/images/og-image.jpg" />
+      </Helmet>
       <div className="">
         
         {/* Hero Section */}
