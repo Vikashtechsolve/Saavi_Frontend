@@ -2,6 +2,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Home from '@/pages/Home';
 import About from '@/pages/About';
 import Hotels from '@/pages/Hotels';
@@ -23,7 +24,8 @@ import ReactWhatsapp from 'react-whatsapp';
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="hotel-theme">
+    <HelmetProvider>
+      <ThemeProvider defaultTheme="light" storageKey="hotel-theme">
     <ScrollToTop />
       <div className="min-h-screen flex flex-col w-full">
         <Navbar />
@@ -79,6 +81,7 @@ function App() {
       </div>
       <Analytics />
     </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
